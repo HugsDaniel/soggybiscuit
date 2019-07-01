@@ -5,13 +5,10 @@
     <title>Soggy Biscuit</title>
     <style>
       canvas {
-        width: 800px;
-        height: 800px;
         border: 5px solid black;
       }
     </style>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="/socket.io/socket.io.js"></script>
   </head>
 
   <body>
@@ -19,7 +16,7 @@
       <h1 class="text-center">Soggy Biscuit</h1>
       <div class="row">
         <div class="col-9">
-          <canvas id="canvas"></canvas>
+          <canvas id="canvas" height="800" width="800"></canvas>
         </div>
 
         <div class="col-3">
@@ -36,6 +33,9 @@
 
     <input type="button" value="beat" id="beat">
 
-    <script src="/static/game.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="socket.js"></script>
+    <script src="chat.js"></script>
+    <script src="game.js"></script>
   </body>
 </html>

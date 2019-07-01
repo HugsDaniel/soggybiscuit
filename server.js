@@ -9,7 +9,7 @@ const server    = http.Server(app);
 const io        = socketIO(server);
 
 app.set('port', 8080);
-app.use('static', express.static(__dirname + '/static'));
+app.use(express.static('static'));
 
 // Routing
 
@@ -29,19 +29,33 @@ server.listen(8080, () => {
 });
 
 io.sockets.on('connection', (socket) => {
-  socket.emit('message', 'Lol');
-  // socket.on('username', (username) => {
-  //   socket.username = username;
-  //   socket.broadcast.emit('new_user', username);
-  // })
-  //
-  // socket.on('message', (message) => {
-  //   socket.emit('message', { message: message, username: socket.username });
-  //   socket.broadcast.emit('message', { message: message, username: socket.username });
-  // });
-  //
-  // socket.on('cuming', () => {
-  //   socket.emit('cum', "Tu es venu, bien joué !");
-  //   socket.broadcast.emit('cum', socket.username + " est venu sur le biscuit !");
-  // });
+  socket.on('username', (data) => {
+    socket.username = data.username;
+    socket.cumImgSrc = getCumImgSrc(Object.keys(io.sockets.sockets).length - 1);
+    socket.imageSrc = data.imageSrc;
+    io.emit('new_player', { cumImgSrc: socket.cumImgSrc, username: socket.username });
+  })
+
+  socket.on('message', (message) => {
+    socket.emit('message', { message: message, username: socket.username });
+    socket.broadcast.emit('message', { message: message, username: socket.username });
+  });
+
+  socket.on('cuming', () => {
+    socket.emit('cum', { message: "Tu es venu, bien joué !", cumImgSrc: socket.cumImgSrc });
+    socket.broadcast.emit('cum', { message: socket.username + " est venu sur le biscuit !", cumImgSrc: socket.cumImgSrc });
+  });
 });
+
+
+const getCumImgSrc = (index) => {
+  cumSrcs = [
+    "images/blueCum.png",
+    "images/greenCum.png",
+    "images/pinkCum.png",
+    "images/purpleCum.png",
+    "images/yellowCum.png"
+  ]
+
+  return cumSrcs[index];
+}
