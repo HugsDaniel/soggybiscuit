@@ -1,10 +1,14 @@
-document.getElementById('form').addEventListener('submit', (event) => {
-  emitMessage();
-  event.preventDefault();
-});
+// Events
 
 socket.on('message', (data) => {
   insertMessage(data);
+});
+
+// Methods
+
+document.getElementById('form').addEventListener('submit', (event) => {
+  emitMessage();
+  event.preventDefault();
 });
 
 const emitMessage = () => {

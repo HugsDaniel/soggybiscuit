@@ -1,4 +1,13 @@
-const beatButton  = document.getElementById('beat');
+const socket    = io.connect('http://localhost:8080');
+
+// Events
+
+socket.on('cum', (data) => {
+  splashCum(data);
+})
+
+// Methods
+
 const canvas      = document.getElementById("canvas");
 const context     = canvas.getContext("2d");
 const img         = new Image();
@@ -14,16 +23,15 @@ img.onload = () => {
 }
 
 document.addEventListener('keydown', (event) => {
-  const keyName =
-  if (counter < 3) {
-    counter = counter + 1;
-  } else {
-    socket.emit('cuming');
-  }
-})
+  const keyName = event.key;
 
-socket.on('cum', (data) => {
-  splashCum(data);
+  if (keyName == 'b') {
+    if (counter < 3) {
+      counter = counter + 1;
+    } else {
+      socket.emit('cuming');
+    }
+  }
 })
 
 const splashCum = (data) => {
