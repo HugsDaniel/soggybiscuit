@@ -12,6 +12,7 @@ const canvas      = document.getElementById("canvas");
 const context     = canvas.getContext("2d");
 const img         = new Image();
 let counter       = 0;
+let running       = false;
 
 img.src = "images/biscuit.png";
 img.onload = () => {
@@ -24,19 +25,37 @@ img.onload = () => {
 
 document.addEventListener('keydown', (event) => {
   const keyName = event.key;
+  setDeslide();
 
   if (keyName == 'b') {
-    if (counter < 3) {
-      counter = counter + 1;
+    if (counter < 100) {
+      counter ++;
+      slideBar();
+
     } else {
       socket.emit('cuming');
     }
   }
 })
 
+const setDeslide = () => {
+  if (running === false) {
+    window.setInterval(() => {
+      counter--;
+      slideBar(counter);
+    }, 1000 / 2)
+
+    running = true;
+  }
+}
+
+const slideBar = () => {
+  const slider = document.querySelector('#slider');
+  slider.style.width = `${counter * 6}px`
+}
+
 const splashCum = (data) => {
   const cum = new Image();
-
   cum.src = data.cumImgSrc;
 
   cum.onload = () => {
