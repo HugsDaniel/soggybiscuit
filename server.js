@@ -51,12 +51,16 @@ io.sockets.on('connection', (socket) => {
 
   socket.on('message', (message) => {
     io.emit('message', { message: message, username: socket.username });
-  });
+  })
 
   socket.on('cuming', () => {
     socket.emit('cum', { message: "Tu es venu, bien joué !", cumImgSrc: socket.cumImgSrc });
     socket.broadcast.emit('cum', { message: socket.username + " est venu sur le biscuit !", cumImgSrc: socket.cumImgSrc });
-  });
+  })
+
+  socket.on('loser', () => {
+    io.emit('losing', { username: socket.username })
+  })
 
   socket.on('disconnect', () => {
     delete players[socket.id];

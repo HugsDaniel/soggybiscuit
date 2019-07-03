@@ -3,7 +3,12 @@ const socket    = io.connect('http://localhost:8080');
 // Events
 
 socket.on('cum', (data) => {
-  splashCum(data);
+  displayWinMsg(data.message);
+  splashCum(data.cumImgSrc);
+})
+
+socket.on('losing', (data) => {
+  alert(data.message + 'a perdu ! Il doit manger la biscotte ;)')
 })
 
 // Methods
@@ -28,7 +33,7 @@ document.addEventListener('keydown', (event) => {
   setDeslide();
 
   if (keyName == 'b') {
-    if (counter < 100) {
+    if (counter < 50) {
       counter ++;
       slideBar();
 
@@ -51,12 +56,22 @@ const setDeslide = () => {
 
 const slideBar = () => {
   const slider = document.querySelector('#slider');
-  slider.style.width = `${counter * 6}px`
+  slider.style.width = `${counter * 12}px`
 }
 
-const splashCum = (data) => {
+const displayWinMsg = (message) => {
+  const div = document.createElement('div');
+  div.style.height = "30px";
+  div.innerHTML = message;
+
+  const messages = document.querySelector('#messages');
+
+  messages.appendChild(div)
+}
+
+const splashCum = (cumImgSrc) => {
   const cum = new Image();
-  cum.src = data.cumImgSrc;
+  cum.src = cumImgSrc;
 
   cum.onload = () => {
     context.drawImage(
